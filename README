@@ -29,9 +29,9 @@ ____________________
 Documentation
 
     pmars.6 is the nroff-source for UNIX man pages. You can install it in
-    /usr/man/man6 for use with the UNIX "man" command or format it with nroff
-    -man. pmars.txt contains man pages without control characters that have
-    been formatted for printing.
+    /usr/share/man/man6 for use with the UNIX "man" command or format it with
+    nroff -man. pmars.txt contains man pages without control characters that
+    have been formatted for printing.
 
     doc/primer.94 and doc/primer.cdb contain short introductions to the ICWS'94
     draft and the cdb debugger respectively. redcode.ref is a quick reference to
@@ -46,5 +46,3 @@ Language support
     native tongue, translate the strings and send the file to us. We will then
     include the new str_???.c in the next release and might even release the
     foreign language binaries.
-
-
