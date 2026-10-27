@@ -148,9 +148,8 @@ init_rc5(U32_T *schedule)
     rc5_schedule(schedule, a, b, 12);
 }
 
-
-#define ROL(x,y) (((U32_T)(x) << ((y)&31)) | ((U32_T)(x) >> ((y)&31)))
-#define ROR(x,y) (((U32_T)(x) >> ((y)&31)) | ((U32_T)(x) << ((y)&31)))
+#define ROL(x,y) (((U32_T)(x) << ((y)&31)) | ((U32_T)(x) >> ((-(y))&31)))
+#define ROR(x,y) (((U32_T)(x) >> ((y)&31)) | ((U32_T)(x) << ((-(y))&31)))
 
 #define _P UINT32_C(0xb7e15163)
 #define _Q UINT32_C(0x9e3779b9)
