@@ -33,12 +33,6 @@
 extern unsigned long loopDelayAr[SPEEDLEVELS];
 static int use_color;
 
-/* For window structure in BSD 4.4/Curses 8.x library */
-#ifdef BSD44
-#define _curx curx
-#define _cury cury
-#endif
-
 typedef struct win_st {
   WINDOW *win;
   int     page;
@@ -449,7 +443,7 @@ agets5(str, maxchar, attr)
     return fgets(str, maxchar, stdin);
   } else {
     char    ch, f, *ostr = str;
-    int     oy, ox;
+    int     oy, ox, cy, cx;
 
     --maxchar;
     for (f = 1; maxchar && f;) {
@@ -461,11 +455,12 @@ agets5(str, maxchar, attr)
           str--;
           maxchar++;
           leaveok(curwin, TRUE);
-          if (ox = curwin->_curx) {
-            mvwaddch(curwin, curwin->_cury, --ox, ' ');
-            wmove(curwin, curwin->_cury, ox);
+          getyx(curwin, oy, ox);
+          if (ox) {
+            mvwaddch(curwin, oy, --ox, ' ');
+            wmove(curwin, oy, ox);
           } else {
-            oy = curwin->_cury - 1;
+            oy--;
             mvwaddch(curwin, oy, COLS - 1, ' ');
             wmove(curwin, oy, COLS - 1);
           }
@@ -476,9 +471,10 @@ agets5(str, maxchar, attr)
       case 27:
         leaveok(curwin, TRUE);
         for (getyx(curwin, oy, ox); str > ostr; str--, maxchar++) {
-          if (ox--)
-            mvwaddch(curwin, curwin->_cury, ox, ' ');
-          else
+          if (ox--) {
+            getyx(curwin, cy, cx);
+            mvwaddch(curwin, cy, ox, ' ');
+          } else
           mvwaddch(curwin, oy, ox = COLS, ' ');
         }
         leaveok(curwin, FALSE);
